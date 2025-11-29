@@ -36,7 +36,7 @@ with tab2:
     st.header("Kiem tra suc khoe")
     tabC, tabD, tabE, tabF =  st.tabs(["thoi gian su dung may va giac ngu", "Bmi", "luong nuoc can uong", "So luong buoc chan"])
     with tabC:   
-          tabZ, tabY = st.tabs(["Dự đoán giờ đi ngủ", "Dự đoán ngủ cho trẻ sơ sinh(mới tập đi), trẻ em,người lớn"]) 
+        tabZ, tabY = st.tabs(["Dự đoán giờ đi ngủ", "Dự đoán ngủ cho trẻ sơ sinh(mới tập đi), trẻ em,người lớn"]) 
         with tabZ:
             st.title("Dự đoán giờ ngủ qua thời gian sử dụng máy")
             x = [
@@ -175,3 +175,4 @@ with tab3:
             st.write(entry.published)
 
             st.write(entry.link)
+
