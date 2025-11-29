@@ -36,33 +36,63 @@ with tab2:
     st.header("Kiem tra suc khoe")
     tabC, tabD, tabE, tabF =  st.tabs(["thoi gian su dung may va giac ngu", "Bmi", "luong nuoc can uong", "So luong buoc chan"])
     with tabC:   
-        x = [
-            [10,1,8],
-            [20,5,6],
-            [25,8,3],
-            [30,6,5],
-            [35,2,9],
-            [40,4,3]
-        ]
-        y = [10,8,6,7,9.5,9]
-        model = LinearRegression()
-        model.fit(x,y)
-        st.write("nhap thong tin ca nha: ")
-        age = st.number_input("tuoi cua ban", min_value= 5, max_value=100, value = 25)
-        activity = st.slider("muc do hoat dong the chat cua ban(1= it, 10 = rat nhieu)",1,10,5)
-        screen_time = st.number_input("thoi gian su dung man hinh cua ban trong 1 ngay(gio)", min_value=0, max_value=24, value = 6)
+          tabZ, tabY = st.tabs(["Dự đoán giờ đi ngủ", "Dự đoán ngủ cho trẻ sơ sinh(mới tập đi), trẻ em,người lớn"]) 
+        with tabZ:
+            st.title("Dự đoán giờ ngủ qua thời gian sử dụng máy")
+            x = [
+                [10,1,8],
+                [20,5,6],
+                [25,8,3],
+                [30,6,5],
+                [35,2,9],
+                [40,4,3]
+            ]
+            y = [10,8,6,7,9.5,9]
+            model = LinearRegression()
+            model.fit(x,y)
+            st.write("nhap thong tin ca nhan: ")
+            age = st.number_input("tuoi cua ban", min_value= 5, max_value=100, value = 25)
+            activity = st.slider("muc do hoat dong the chat cua ban(1= it, 10 = rat nhieu)",1,10,5)
+            screen_time = st.number_input("thoi gian su dung man hinh cua ban trong 1 ngay(gio)", min_value=0, max_value=24, value = 6)
 
-        if st.button("Du doan ngay"):
-            input_data = [[age, activity, screen_time]]
-            result = model.predict(input_data)[0]
-            st.success(f" ban nen ngu khoang {result:.1f} moi dem")
+            if st.button("Du doan ngay"):
+                input_data = [[age, activity, screen_time]]
+                result = model.predict(input_data)[0]
+                st.success(f" ban nen ngu khoang {result:.1f} moi dem")
 
-            if result < 6.5:
-                st.warning("co the ban can nghi ngoi, nghi de cai thien suc khoe")
-            elif result > 9:
-                st.info("ban dang vat dong nhieu, hay nghi ngoi")
-            else:
-                st.success("luong ngu ly tuong")
+                if result < 6.5:
+                    st.warning("co the ban can nghi ngoi, nghi de cai thien suc khoe")
+                elif result > 9:
+                    st.info("ban dang vat dong nhieu, hay nghi ngoi")
+                else:
+                    st.success("luong ngu ly tuong")
+        with tabY:
+            st.title("Dự đoán ngủ cho trẻ sơ sinh(mới tập đi), trẻ em,người lớn")
+            taby1, tapy = st.tabs(["Cho trẻ sơ sinh", "Cho trẻ em và người lớn"])
+            with taby1:
+                st.header("Tính giờ ngủ cho trẻ sơ sinh")
+                thang = st.number_input("Nhập số tháng tuổi: ", min_value= 0, max_value=12, value = 1, step = 1)
+                if st.button('tính thời gian ngủ theo tháng tuổi'):
+                    if thang < 4:
+                        st.info('cần ngủ 14-17 tiếng mỗi ngày')
+                    else:
+                        st.info('cần ngủ 12- 15 tiếng mỗi ngày')
+        with tapy:
+            st.header('Tính giờ ngủ cho trẻ em và người lớn')
+            tuoi = st.number_input('Nhập độ tuổi của bạn: ', min_value=0, max_value=100, value = 18, step = 1)
+            if st.button("tính thời gian ngủ"):
+                if tuoi < 3:
+                    st.info("cần ngủ 11-14 tiếng mỗi ngày")
+                elif tuoi < 6:
+                    st.info("cần ngủ 10-13 tiếng mỗi ngày")
+                elif tuoi < 14:
+                    st.info("cần ngủ 9-11 tiếng mỗi ngày")
+                elif tuoi < 18:
+                    st.info("cần ngủ 8-10 tiếng mỗi ngày")
+                elif tuoi < 65:
+                    st.info("cần ngủ 7-9 tiếng mỗi ngày")
+                else:
+                    st.info("cần ngủ 7-8 tiếng mỗi ngày")
     with tabD:
         weight = st.number_input("nhập cân nặng vào(kg): ", min_value= 1.0, max_value = 200.0, value = 75.0, step = 0.1)
         height = st.number_input("Nhập chiều cao(M): ", min_value= 1.0, max_value = 2.5, value = 1.7, step = 0.01)
@@ -143,4 +173,5 @@ with tab3:
         for entry in feed.entries[:10]:
             st.subheader(entry.title)
             st.write(entry.published)
+
             st.write(entry.link)
