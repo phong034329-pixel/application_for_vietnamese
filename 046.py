@@ -192,6 +192,7 @@ with tab3:
                     st.warning("Số bí mật nhỏ hơn")
                 else:
                     st.success(f"chính xác, bán đoán đúng sau {st.session_state.tries} lần.")
-                if st.button("chơi lại"):
-                    st.session_state.secret = random.randint(1,100)
-                    st.session_state.tries = 0
+            if st.button("chơi lại"):
+                st.session_state.secret = random.randint(1,100)
+                st.session_state.tries = 0
+
