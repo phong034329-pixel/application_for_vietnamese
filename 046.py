@@ -1,6 +1,7 @@
 import streamlit as st
 from sklearn.linear_model import LinearRegression
 import feedparser
+import random
 
 st.sidebar.title("Danh sách nghệ sĩ")
 selected_artist = st.sidebar.selectbox("Chọn nghệ sĩ", ["Son Tung MTP", "Deamn", "Sandaru Sathsara"])
@@ -25,7 +26,7 @@ videos = {
     ]
 }
 st.title("Ứng dụng cuộc sống hằng ngày- sức khỏe, âm nhạc và tin tức")
-tab1, tab2, tab3 = st.tabs(["Music"," Kiem tra suc khoe", "Tin tung moi nhat"])
+tab1, tab2, tab3, tab4 = st.tabs(["Music"," Kiem tra suc khoe", "Tin tung moi nhat", "Game"])
 with tab1:
     st.header(f"Bài hát của {selected_artist}")
     for title, url in videos[selected_artist]:
@@ -35,7 +36,7 @@ with tab1:
 with tab2:
     st.header("Kiem tra suc khoe")
     tabC, tabD, tabE, tabF =  st.tabs(["thoi gian su dung may va giac ngu", "Bmi", "luong nuoc can uong", "So luong buoc chan"])
-    with tabC:   
+    with tabC: 
         tabZ, tabY = st.tabs(["Dự đoán giờ đi ngủ", "Dự đoán ngủ cho trẻ sơ sinh(mới tập đi), trẻ em,người lớn"]) 
         with tabZ:
             st.title("Dự đoán giờ ngủ qua thời gian sử dụng máy")
@@ -77,22 +78,23 @@ with tab2:
                         st.info('cần ngủ 14-17 tiếng mỗi ngày')
                     else:
                         st.info('cần ngủ 12- 15 tiếng mỗi ngày')
-        with tapy:
-            st.header('Tính giờ ngủ cho trẻ em và người lớn')
-            tuoi = st.number_input('Nhập độ tuổi của bạn: ', min_value=0, max_value=100, value = 18, step = 1)
-            if st.button("tính thời gian ngủ"):
-                if tuoi < 3:
-                    st.info("cần ngủ 11-14 tiếng mỗi ngày")
-                elif tuoi < 6:
-                    st.info("cần ngủ 10-13 tiếng mỗi ngày")
-                elif tuoi < 14:
-                    st.info("cần ngủ 9-11 tiếng mỗi ngày")
-                elif tuoi < 18:
-                    st.info("cần ngủ 8-10 tiếng mỗi ngày")
-                elif tuoi < 65:
-                    st.info("cần ngủ 7-9 tiếng mỗi ngày")
-                else:
-                    st.info("cần ngủ 7-8 tiếng mỗi ngày")
+            with tapy:
+                st.header('Tính giờ ngủ cho trẻ em và người lớn')
+                tuoi = st.number_input('Nhập độ tuổi của bạn: ', min_value=0, max_value=100, value = 18, step = 1)
+                if st.button("tính thời gian ngủ"):
+                    if tuoi < 3:
+                        st.info("cần ngủ 11-14 tiếng mỗi ngày")
+                    elif tuoi < 6:
+                        st.info("cần ngủ 10-13 tiếng mỗi ngày")
+                    elif tuoi < 14:
+                        st.info("cần ngủ 9-11 tiếng mỗi ngày")
+                    elif tuoi < 18:
+                        st.info("cần ngủ 8-10 tiếng mỗi ngày")
+                    elif tuoi < 65:
+                        st.info("cần ngủ 7-9 tiếng mỗi ngày")
+                    else:
+                        st.info("cần ngủ 7-8 tiếng mỗi ngày")
+
     with tabD:
         weight = st.number_input("nhập cân nặng vào(kg): ", min_value= 1.0, max_value = 200.0, value = 75.0, step = 0.1)
         height = st.number_input("Nhập chiều cao(M): ", min_value= 1.0, max_value = 2.5, value = 1.7, step = 0.01)
@@ -173,6 +175,23 @@ with tab3:
         for entry in feed.entries[:10]:
             st.subheader(entry.title)
             st.write(entry.published)
-
             st.write(entry.link)
 
+    with tab4:
+        st.header("Game")
+        st.subheader("Game đoán số bí mật từ 1- 100")
+        if "secret" not in st.session_state:
+            st.session_state.secret = random.randint(1, 100)
+            st.session_state.tries = 0
+            guess = st.number_input("Nhập số dự đoán 1- 100", min_value = 1, max_value = 100, step = 1)
+            if st.button("Đoán"):
+                st.session_state.tries += 1
+                if guess < st.session_state.secret:
+                    st.warning("số bí mật lớn hơn")
+                elif guess > st.session_state.secret:
+                    st.warning("Số bí mật nhỏ hơn")
+                else:
+                    st.success(f"chính xác, bán đoán đúng sau {st.session_state.tries} lần.")
+                if st.button("chơi lại"):
+                    st.session_state.secret = random.randint(1,100)
+                    st.session_state.tries = 0
