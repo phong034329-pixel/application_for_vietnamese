@@ -177,22 +177,20 @@ with tab3:
             st.write(entry.published)
             st.write(entry.link)
 
-    with tab4:
-        st.header("Game")
-        st.subheader("Game đoán số bí mật từ 1- 100")
-        if "secret" not in st.session_state:
-            st.session_state.secret = random.randint(1, 100)
-            st.session_state.tries = 0
-            guess = st.number_input("Nhập số dự đoán 1- 100", min_value = 1, max_value = 100, step = 1)
-            if st.button("Đoán"):
-                st.session_state.tries += 1
-                if guess < st.session_state.secret:
-                    st.warning("số bí mật lớn hơn")
-                elif guess > st.session_state.secret:
-                    st.warning("Số bí mật nhỏ hơn")
-                else:
-                    st.success(f"chính xác, bán đoán đúng sau {st.session_state.tries} lần.")
-            if st.button("chơi lại"):
-                st.session_state.secret = random.randint(1,100)
-                st.session_state.tries = 0
-
+with tab4:
+    st.header("Game đoán số bí mật từ 1- 100")
+    if "secret" not in st.session_state:
+        st.session_state.secret = random.randint(1, 100)
+        st.session_state.tries = 0
+        guess = st.number_input("Nhập số dự đoán 1- 100", min_value = 1, max_value = 100, step = 1)
+    if st.button("Đoán"):
+        st.session_state.tries += 1
+        if guess < st.session_state.secret:
+            st.warning("số bí mật lớn hơn")
+        elif guess > st.session_state.secret:
+            st.warning("Số bí mật nhỏ hơn")
+        else:
+            st.success(f"chính xác, bán đoán đúng sau {st.session_state.tries} lần.")
+    if st.button("chơi lại"):
+        st.session_state.secret = random.randint(1,100)
+        st.session_state.tries = 0
