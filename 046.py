@@ -182,7 +182,7 @@ with tab4:
     if "secret" not in st.session_state:
         st.session_state.secret = random.randint(1, 100)
         st.session_state.tries = 0
-        guess = st.number_input("Nhập số dự đoán 1- 100", min_value = 1, max_value = 100, step = 1)
+    guess = st.number_input("Nhập số dự đoán 1- 100", min_value = 1, max_value = 100, step = 1)
     if st.button("Đoán"):
         st.session_state.tries += 1
         if guess < st.session_state.secret:
@@ -194,3 +194,4 @@ with tab4:
     if st.button("chơi lại"):
         st.session_state.secret = random.randint(1,100)
         st.session_state.tries = 0
+
